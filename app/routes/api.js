@@ -7,6 +7,7 @@
 // Get the packages
 var bodyParser = require("body-parser"); // get body-parser
 var User = require("../models/user"); // our User model
+var Article = require("../models/article"); // our Article model
 var jwt = require("jsonwebtoken"); // get JSON Web Token package for authentication
 var config = require("../../config"); // for the secret
 
@@ -123,7 +124,7 @@ module.exports = function (app, express) {
             // create a new instance of the User model
             var user = new User();
 
-            // set the users information (comes from the request)
+            // set the user's information (comes from the request)
             user.name = req.body.name;
             user.username = req.body.username;
             user.password = req.body.password;
@@ -223,6 +224,62 @@ module.exports = function (app, express) {
                 res.json({ message: "Successfuly deleted!" });
             });
         });
+
+    // on routes that end in /users/:user_id/articles
+    // -----------------------------------------------------
+    apiRouter.route("/users/:user_id/articles")
+
+        // to post an article by the user with that id
+        // (accessed at POST http://localhost:8080/api/users/:user_id/articles)
+        .post(function (req, res) {
+            User.findById(req.params.user_id, function (err, user) {
+                if (err){
+                    res.send(err);
+                }
+
+                // create a new instance of the Article model
+                var article = new Article();
+
+                // set the article information (comes from the request)
+                article.author = req.params.user_id;
+                article.content = req.body.content;
+
+                // save the user and check for errors
+                article.save(function (err) {
+                    if (err){
+                        // duplicate entry
+                        if (err.code == 11000){
+                            return res.json({ success: false, message: "A user with that username already exists." });
+                        }
+                        else {
+                            return res.send(err);
+                        }
+                    }
+                    res.json({ message: "Article posted! "});
+                });
+            });
+        })
+
+        // get the articles from the user with that id
+        // (accessed at GET http://localhost:8080/api/users/:user_id/articles)
+        .get(function (req, res) {
+            User.findById(req.params.user_id, function (err, user) {
+
+                Article.find(function (err, articles) {
+                    if (err){
+                        res.send(err);
+                    }
+
+                    // return the user's articles
+                    res.json(articles);
+                });
+
+                /*// return that user's article
+                res.json({ message: "The article content should be here" + article });*/
+            });
+        });
+
+
 
     // api endpoint to get user information
     apiRouter.get('/me', function(req, res) {

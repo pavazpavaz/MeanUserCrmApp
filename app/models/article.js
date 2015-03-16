@@ -9,7 +9,7 @@ var Schema = mongoose.Schema;
 // article schema
 var ArticleSchema = new Schema({
     author : { type:mongoose.Schema.Types.ObjectId, ref: "User" },
-    body : String
+    content : String
 });
 
 // return the article model
