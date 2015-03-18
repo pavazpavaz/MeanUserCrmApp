@@ -249,7 +249,7 @@ module.exports = function (app, express) {
                     if (err){
                         // duplicate entry
                         if (err.code == 11000){
-                            return res.json({ success: false, message: "A user with that username already exists." });
+                            return res.json({ success: false, message: "Duplicated message." });
                         }
                         else {
                             return res.send(err);
