@@ -3,7 +3,7 @@
  */
 
 // start our angular module and inject userService
-angular.module('userCtrl', ['userService'])
+angular.module('articleCtrl', ['articleService'])
 
     // article controller for the main articles page
     // inject the Article factory (from the articleService)
