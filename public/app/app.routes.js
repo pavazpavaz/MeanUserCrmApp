@@ -43,6 +43,20 @@ angular.module('app.routes', ['ngRoute'])
                 templateUrl: 'app/views/pages/users/single.html',
                 controller: 'userEditController',
                 controllerAs: 'user'
+            })
+
+            // show all articles by that user
+            .when('/users/:user_id/articles', {
+                templateUrl: 'app/views/pages/articles/all.html',
+                controller: 'articleController',
+                controllerAs: 'article'
+            })
+
+            // form to create an article
+            .when('/users/:user_id/create', {
+                templateUrl: 'app/views/pages/articles/single.html',
+                controller: 'articleCreateController',
+                controllerAs: 'article'
             });
 
         // get rid of the hash(#) in the URL
