@@ -8,6 +8,7 @@ angular.module("userApp", [
     "authService", // authService is the service file for authentication (interacts with the API)
     "mainCtrl", // mainCtrl is the controller that encompasses our main view
     "userCtrl", // userCtrl is the controller for all our user management pages
+    "articleCtrl", // articleCtrl is the controller for all the articles pages
     "userService", // userService is the Service that will return the data from our calls to the API
     "articleService" // articleService is the Service that will return the article data from our calls to the API
 ])
